@@ -1,0 +1,4 @@
+Outputs/
+__pycache__/
+*.pth
+.codex_backups/
