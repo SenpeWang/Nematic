@@ -31,9 +31,17 @@ class PercentileNormalize(BaseTransform):
         img = img.astype(np.float32)
 
         if self.per_channel and img.ndim == 3:
-            # Assume channel-first (C, H, W) — standard after LoadImageFromFile
-            # with tifffile backend. If channel-last, the logic still works
-            # because we iterate over the first dimension.
+            # Auto-detect channel axis:
+            # cv2/opencv backend returns (H, W, C) where C in {1,3,4}
+            # tifffile backend returns (C, H, W) where C is often > 4
+            if img.shape[2] in (1, 3, 4):
+                channel_axis = 2  # H, W, C
+            elif img.shape[0] <= 8 and img.shape[0] < min(img.shape[1], img.shape[2]):
+                channel_axis = 0  # C, H, W
+            else:
+                channel_axis = np.argmin(img.shape)
+
+            img = np.moveaxis(img, channel_axis, 0)
             for c in range(img.shape[0]):
                 ch = img[c]
                 p_low = np.percentile(ch, self.lower)
@@ -42,6 +50,7 @@ class PercentileNormalize(BaseTransform):
                 if scale < 1e-8:
                     scale = 1.0
                 img[c] = np.clip((ch - p_low) / scale, 0.0, 1.0)
+            img = np.moveaxis(img, 0, channel_axis)
         else:
             p_low = np.percentile(img, self.lower)
             p_high = np.percentile(img, self.upper)
