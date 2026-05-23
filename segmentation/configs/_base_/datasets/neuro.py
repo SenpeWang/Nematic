@@ -7,9 +7,10 @@ data_root = '/home/wangshengping/DataSet/Neuro'
 crop_size = (512, 512)
 
 train_pipeline = [
-    dict(type='LoadImageFromFile', to_float32=True),
-    dict(type='LoadAnnotations'),
-    dict(type='ConvertLabel', src_val=255, dst_val=1),
+    dict(type='LoadImageFromFile', to_float32=True, imdecode_backend='tifffile'),
+    dict(type='PercentileNormalize', lower=1, upper=99, per_channel=True),
+    dict(type='PercentileNormalize', lower=1, upper=99, per_channel=True),
+    dict(type='LoadAnnotations', label_mapping={255: 1}),
     dict(type='RandomResize', scale=(512, 512), ratio_range=(0.5, 2.0), keep_ratio=True),
     dict(type='RandomCrop', crop_size=crop_size, cat_max_ratio=0.75),
     dict(type='RandomFlip', prob=0.5, direction='horizontal'),
@@ -19,10 +20,9 @@ train_pipeline = [
 ]
 
 test_pipeline = [
-    dict(type='LoadImageFromFile', to_float32=True),
+    dict(type='LoadImageFromFile', to_float32=True, imdecode_backend='tifffile'),
     dict(type='Resize', scale=(512, 512), keep_ratio=True),
-    dict(type='LoadAnnotations'),
-    dict(type='ConvertLabel', src_val=255, dst_val=1),
+    dict(type='LoadAnnotations', label_mapping={255: 1}),
     dict(type='PackSegInputs')
 ]
 

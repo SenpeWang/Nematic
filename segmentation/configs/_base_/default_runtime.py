@@ -1,3 +1,4 @@
+custom_imports = dict(imports=['segmentation'])
 default_scope = 'mmseg'
 env_cfg = dict(
     cudnn_benchmark=True,

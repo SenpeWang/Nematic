@@ -18,9 +18,9 @@ for _p in (_PROJECT_ROOT, _SEG_DIR):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-# Trigger registration of MM_SGNetBackbone / SGNetSegmentor / SGNetTrainHook
-import segmentation.model  # noqa: F401
-import segmentation.engine.hooks.sgnet_train_hook  # noqa: F401
+# Trigger registration of custom modules via segmentation package.
+# (custom_imports in config also loads these; kept here for robustness.)
+import segmentation  # noqa: F401
 
 from mmengine.config import Config, DictAction
 from mmengine.logging import print_log

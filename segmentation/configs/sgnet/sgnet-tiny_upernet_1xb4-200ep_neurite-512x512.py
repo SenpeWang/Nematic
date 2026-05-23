@@ -11,12 +11,12 @@ _base_ = [
 
 crop_size = (512, 512)
 
-# Neurite: 3ch PNG, 使用 ImageNet 归一化
+# Neurite: 3ch PNG, percentile normalization + simple rescale
 data_preprocessor = dict(
     type='SegDataPreProcessor',
-    mean=[123.675, 116.28, 103.53],
-    std=[58.395, 57.12, 57.375],
-    bgr_to_rgb=True,
+    mean=[0, 0, 0],
+    std=[1, 1, 1],
+    bgr_to_rgb=False,
     pad_val=0,
     seg_pad_val=255,
     size=crop_size,
