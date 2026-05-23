@@ -1,0 +1,29 @@
+# Training outputs
+Outputs/
+*.pth
+*.pt
+*.onnx
+*.ckpt
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Build artifacts
+build/
+*.egg-info/
+dist/
+.ninja_deps
+.ninja_log
+
+# IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
