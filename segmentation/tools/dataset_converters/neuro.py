@@ -22,6 +22,7 @@ import json
 import os
 import os.path as osp
 
+import mmcv
 import numpy as np
 from mmengine.utils import mkdir_or_exist, scandir
 from PIL import Image
@@ -32,11 +33,11 @@ def check_and_normalize_labels(label_dir, output_dir):
     mkdir_or_exist(output_dir)
     for label_name in scandir(label_dir, suffix='.png'):
         label_path = osp.join(label_dir, label_name)
-        img = np.array(Image.open(label_path))
+        img = mmcv.imread(label_path, flag='grayscale')
         if img.max() > 1:
             img = (img > 0).astype(np.uint8)
         out_path = osp.join(output_dir, label_name)
-        Image.fromarray(img).save(out_path)
+        mmcv.imwrite(img, out_path)
 
 
 def compute_stats(image_dir):
