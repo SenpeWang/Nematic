@@ -1,0 +1,31 @@
+# Checkpoints, outputs and weights (16GB)
+Outputs/
+*.pth
+*.pt
+*.bin
+*.tar
+*.gz
+*.zip
+*.log
+
+# Media, visualization and PDF files (56MB)
+配图/
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.svg
+
+# Temporary notes and backups
+notes/
+*.bak*
+*.bak
+*.tmp
+*~
+.DS_Store
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*.class
+.pytest_cache/
